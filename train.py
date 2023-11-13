@@ -270,7 +270,7 @@ def save_model(local_rank, model, tokenizer, outpath, current_epoch, current_ste
         cpu_state = model.state_dict()
 
     if local_rank == 0:
-        print(f"SAVING MODEL")
+        print("SAVING MODEL")
         outpath += f"/epoch_{current_epoch}/step_{current_step}"
         model.save_pretrained(outpath, state_dict=cpu_state)
         tokenizer.save_pretrained(outpath)
@@ -310,7 +310,7 @@ if __name__ == "__main__":
     )
 
     model, tokenizer = setup_model(model_name, max_length)
-    num_params = sum([p.numel() for p in model.parameters()])
+    num_params = sum(p.numel() for p in model.parameters())
     auto_wrap_policy = functools.partial(
         transformer_auto_wrap_policy,
         transformer_layer_cls={

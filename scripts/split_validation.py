@@ -4,28 +4,23 @@ import json
 
 
 def save_split(train, validation, name):
-    t = open("train_" + name + ".jsonl", "w")
-    t.writelines(train)
-    t.close()
-    t = open("validation_" + name + ".jsonl", "w")
-    t.writelines(validation)
-    t.close()
+    with open(f"train_{name}.jsonl", "w") as t:
+        t.writelines(train)
+    with open(f"validation_{name}.jsonl", "w") as t:
+        t.writelines(validation)
 
 
 def load_datasets(ds):
     d = []
     for dataset in ds:
-        f = open(dataset, "r")
-
-        if "jsonl" in dataset:
-            lines = f.readlines()
-            d += lines
-        else:
-            data = f.read()
-            data = json.loads(data)
-            d += [json.dumps(js) + "\n" for js in data]
-
-        f.close()
+        with open(dataset, "r") as f:
+            if "jsonl" in dataset:
+                lines = f.readlines()
+                d += lines
+            else:
+                data = f.read()
+                data = json.loads(data)
+                d += [json.dumps(js) + "\n" for js in data]
 
     return d
 
